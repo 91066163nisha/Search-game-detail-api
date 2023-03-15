@@ -1,0 +1,79 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap-icons@1.10.3/font/bootstrap-icons.css">
+    <link href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/css/bootstrap.min.css" rel="stylesheet"
+      integrity="sha384-EVSTQN3/azprG1Anm3QDgpJLIm9Nao0Yz1ztcQTwFspd3yD65VohhpuuCOmLASjC" crossorigin="anonymous">
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.2/dist/js/bootstrap.bundle.min.js"
+      integrity="sha384-MrcW6ZMFYlzcLA8Nl+NtUVF0sA7MsXsP1UyJoMp4YLEuNSfAP+JcXn/tWtIaxVXM"
+      crossorigin="anonymous"></script>
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="search-game.css">
+    <title>Search Movie</title>
+  </head>
+
+  <body>
+    <div class="search-box">
+      <div class="icon-main-box">
+        <div class="icon-box">
+          <i class="bi bi-search"></i>
+        </div>
+        <div class="inputCombo">
+          <input type="search" name="Search" class="input-prepend" id="searchField">
+          <button type="submit" id="submit">Search</button>
+          <div class="redirect"></div>
+        </div>
+      </div>
+    </div>
+    <div class="container">
+      <div class="data_deatail"></div>
+      <div class="row">
+      </div>
+    </div>
+    <script>
+
+      function checkData(id) {
+        if (id.charAt(0) == "t") {
+          window.location.href = 'redirect-page.html?id=' + "," + id;
+          $(".redirect").text("Redirecting....")
+
+        } else {
+          $(".data_deatail").text("No data Available");
+        }
+      }
+      submit.addEventListener("click", function () {
+        const inputData = document.getElementById("searchField").value;
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '23b5ef7560mshbb71d2e660911a9p125f24jsn9026b5f100f3',
+            'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+          }
+        };
+
+        fetch('https://imdb8.p.rapidapi.com/auto-complete?q=game%20of%20thr', options)
+          .then(response => response.json())
+          .then(data => {
+            data.d.forEach(element => {
+              const id = element.id
+              const img = element.i
+              const value = element.l
+              $(".row").append(
+                `<div class="col-2" >
+                  <div class="img-card card-height id="card-${element.id}" onclick="checkData('${id}')">
+                    ${img?.imageUrl ? `<img src=${img.imageUrl} class="img-fluid img-deatail" alt="2">` : `<img src="pic-2.jpg" class="img-fluid img-deatail" alt="2"`}
+                  <figcaption class="item-name">${value}</figcaption>
+                   </div>
+              </div>`
+              );
+            });
+          })
+      });
+    </script>
+  </body>
+
+</html>

@@ -1,0 +1,56 @@
+<!DOCTYPE html>
+<html lang="en">
+
+  <head>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE=edge">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <link rel="stylesheet" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/6.3.0/css/all.min.css"
+      integrity="sha512-SzlrxWUlpfuzQ+pcUCosxcglQRNAq/DZjVsC0lE40xsADsfeQoEypE+enwcOiGjk/bSuGGKHEyjSoQ1zVisanQ=="
+      crossorigin="anonymous" referrerpolicy="no-referrer" />
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.3/jquery.min.js"></script>
+    <link rel="stylesheet" href="search-game.css">
+    <title>Redirecting</title>
+  </head>
+
+  <body>
+    <div id="redirect-main">
+    </div>
+
+    <script>
+      const urlText = window.location.href
+      const id = urlText.split(',')[1];
+      console.log(id, "hii8999")
+      function getData(id) {
+        const options = {
+          method: 'GET',
+          headers: {
+            'X-RapidAPI-Key': '23b5ef7560mshbb71d2e660911a9p125f24jsn9026b5f100f3',
+            'X-RapidAPI-Host': 'imdb8.p.rapidapi.com'
+          }
+        };
+
+        fetch(`https://imdb8.p.rapidapi.com/title/get-details?tconst=${id}`, options)
+          .then(response => response.json())
+          .then(res => {
+            console.log(res)
+            $("#redirect-main").append(`
+              <div class="detail-section">
+              <img src="${res.image.url}" class="img-fluid img-deatail-page" alt="2">
+              <div class="col">
+              <div class="title">  ${res.title}</div>
+              <div class="trailer"> <i class="fa-solid fa-play"></i> Play trailer</div>
+              <div class="episode">Number Of Episodes: ${res.numberOfEpisodes}</div>
+              <div class="episode">Title Type:  ${res.titleType}</div>
+              <div class="episode">year:  ${res.year}</div>
+              <div class="episode">Series Duration:${res.seriesStartYear} - ${res.seriesEndYear} </div>
+              </div>
+            </div>`);
+
+          })
+      }
+      getData(id)
+    </script>
+  </body>
+
+</html>
